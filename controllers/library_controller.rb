@@ -1,94 +1,60 @@
 # ########################################################
  # подключаем  классы(модели) для работы с данными
  	
- 	require_relative '../models/Book'
- 	require_relative '../models/Author'
- 	require_relative '../models/Reader'
- 	require_relative '../models/Order'
+ 	require_relative '../models/book'
+ 	require_relative '../models/author'
+ 	require_relative '../models/reader'
+ 	require_relative '../models/order'
+ 	require_relative '../models/library'
 
-# динамически создаём коллекции объектов с которыми будем работать согласно нашим данным в хранилищах (файлы или БД)
-
-	books = []
- 
+ 	# создание коллекций исходя из наших данных в БД или файле
+	books = [] 	
 	File.open('files/books.txt', 'r') do |file|
-	  file.each { |x| books.push(x) }
+	  file.each do |x| 
+	  	temp = x.split(',')
+	  	books << Book.new(temp[0],temp[1])
+	  end
 	end
 
-	books.each_with_index do |item, index|
-		temp = item.split(',')
-			 books[index] = Book.new(temp[0],temp[1])			
-	end
-
-	authors = []
- 
+	authors = [] 
 	File.open('files/authors.txt', 'r') do |file|
-	  file.each { |x| authors.push(x) }
+	  file.each do |x| 
+	  	temp = x.split(',')
+	  	authors << Author.new(temp[0],temp[1])
+	  end
 	end
 
-	authors.each_with_index do |item, index|
-		temp = item.split(',')
-			 authors[index] = Author.new(temp[0],temp[1])			
-	end
-
-	readers = []
- 
+	readers = [] 
 	File.open('files/readers.txt', 'r') do |file|
-	  file.each { |x| readers.push(x) }
+	  file.each do |x| 
+	  	temp = x.split(',')
+	  	readers << Reader.new(temp[0],temp[1],temp[2],temp[3],temp[4])
+	  end
 	end
 
-	readers.each_with_index do |item, index|
-		temp = item.split(',')
-			 readers[index] = Reader.new(temp[0],temp[1],temp[2],temp[3],temp[4])			
-	end
-
-	orders = []
- 
+	orders = [] 
 	File.open('files/orders.txt', 'r') do |file|
-	  file.each { |x| orders.push(x) }
+	  file.each do |x| 
+	  	temp = x.split(',')
+	  	orders << Order.new(temp[0],temp[1],temp[2])	
+	  end
 	end
 
-	orders.each_with_index do |item, index|
-		temp = item.split(',')
-			 orders[index] = Order.new(temp[0],temp[1],temp[2])			
-	end
 
 # #########################################################################
 # непосредственное выполнение самих задач 
 # результаты записываем в файл result.txt
-
+	
 	# находим имя читателя который больше всех берёт книгу
 
-	def name_reader_max_count(orders)
-		arr = []
-		orders.each do |item|
-			arr.push(item.reader)			
-		end
-		
-		counts = arr.group_by{|i| i}.map{|k,v| [k, v.count] }		
-		hash = Hash[*counts.flatten]
-		
-		"Кто часто берёт книгу: '#{hash.invert.max.last}'" 		
-	end
-
-
 	File.open('files/result.txt', 'w') do |file| 
-		file.puts name_reader_max_count(orders)
+		file.puts Library::name_reader_max_count(orders)
 	end
 
 	# находим самую популярную книгу
-
-	def popular_book(orders)
-		arr = []
-		orders.each do |item|
-			arr.push(item.book)			
-		end
-		
-		counts = arr.group_by{|i| i}.map{|k,v| [k, v.count] }		
-		hash = Hash[*counts.flatten]		
-		hash.invert.max.last
-	end
-
-	name_book = popular_book(orders)
+	
+	name_book = Library::popular_book(orders)
+	
 	author_book = ''
 	books.each do |item|
 		author_book = item.author  if item.title == name_book
@@ -98,22 +64,9 @@
 		file.puts "Самая популярная книга: '#{name_book}' автора '#{author_book}' "
 	end
 
+	# находим людей кот. заказали одну и трёх популярных книг	
 
-	# находим людей кот. заказали одну и трёх популярных книг
-	
-	def popular_books(orders)  # функция для нахождения трёх самых популярных книг
-		arr = []
-		orders.each do |item|
-			arr.push(item.book)			
-		end
-		
-		counts = arr.group_by{|i| i}.map{|k,v| [k, v.count] }			
-		res = counts.sort_by{ |key, value| value }.reverse
-
-		res.first(3).to_h.keys
-	end
-
-	pop = popular_books(orders)
+	pop = Library::popular_books(orders)
 
 	people = []
 	orders.each do |item|
