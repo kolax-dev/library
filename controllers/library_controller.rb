@@ -50,7 +50,7 @@
 	File.open('files/result.txt', 'w') do |file| 
 		file.puts Library::name_reader_max_count(orders)
 	end
-
+	
 	# находим самую популярную книгу
 	
 	name_book = Library::popular_book(orders)

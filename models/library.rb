@@ -9,10 +9,16 @@ class Library
 				arr.push(item.reader)			
 			end
 			
-			counts = arr.group_by{|i| i}.map{|k,v| [k, v.count] }		
-			hash = Hash[*counts.flatten]
+			flag = 0
+			name = ''			
+			counts = arr.group_by{|i| i}.each do |k,v|
+			   if v.count > flag
+			   	name = k
+			   	flag = v.count			   
+			   end
+			end			
 			
-			"Кто часто берёт книгу: '#{hash.invert.max.last}'" 		
+			"Кто часто берёт книгу: '#{name}'" 		
 		end
 
 		def popular_book(orders)
