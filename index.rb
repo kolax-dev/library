@@ -1,12 +1,12 @@
 #############################################################
-# подключаем тестовые данные 
-# они будут интерпретировать нашу БД 
-	require_relative 'config/data'
-	
-	
+# подключаем тестовые данные
+# они будут интерпретировать нашу БД
+require_relative 'config/data'
+
+
 ##########################################################
 # здесь логика приложения (controller)
-	
-	require_relative 'controllers/library_controller'	
 
-	puts 'Всё ОК! Результаты в файле result.txt'
+require_relative 'controllers/library_controller'
+
+puts 'Всё ОК! Результаты в файле result.txt'
