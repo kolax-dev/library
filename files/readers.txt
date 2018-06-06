@@ -1,0 +1,6 @@
+Вася,ttt@jgfg.com,Киев,Гагарина,13
+Петя,ghghg@dfgfg.com,Днепр,Поля,4
+Оля,deffg@fgbb.com,Днепр,Яворницкого,65
+Вова,werwer@jgfg.com,Одесса,Дерибасовская,12
+Юля,bbbttt@jfffffgfg.com,Харьков,Разрезная,88
+Никита,eetttfgg@jfffffgfg.com,Харьков,Привокзальная,45
